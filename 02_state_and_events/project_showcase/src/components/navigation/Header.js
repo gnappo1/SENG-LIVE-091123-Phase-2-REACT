@@ -1,13 +1,11 @@
-import React from "react";
-
-const Header = () => {
+const Header = ({isDarkMode, toggleDarkMode}) => {
   return (
     <header>
       <h1>
         <span className="logo">{"//"}</span>
         Project Showcase
       </h1>
-      <button>Dark Mode</button>
+      <button onClick={toggleDarkMode}>{isDarkMode ? "Light Mode" : "Dark Mode"}</button>
     </header>
   );
 }
