@@ -13,7 +13,6 @@ const App = () => {
   const [projects, setProjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState("")
   const [phaseSelected, setPhaseSelected] = useState("All");
-
   
   const handlePhaseSelection = (e) => {
     if (e.target.textContent === "All") {
@@ -26,6 +25,12 @@ const App = () => {
 
   const handleSearch = (e) => {
       setSearchQuery(e.target.value)
+  }
+
+  const handleAddProject = (newProject) => {
+
+    setProjects(currentProjectList => [newProject, ...currentProjectList]) //! new state derived based on current state
+    setProjects([newProject, ...projects])
   }
 
   //! LOCAL NON-STATE VARIABLES DO NOT CAUSE RE-RENDERS
@@ -41,7 +46,7 @@ const App = () => {
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode={isDarkMode} onToggleDarkMode={toggleDarkMode} />
-      <ProjectForm />
+      <ProjectForm handleAddProject={handleAddProject} />
       <button className="load-btn" onClick={loadProjects}>Load Projects</button>
       <ButtonsFilter handlePhaseSelection={handlePhaseSelection}/>
       <SearchBar handleSearch={handleSearch} searchQuery={searchQuery} />
