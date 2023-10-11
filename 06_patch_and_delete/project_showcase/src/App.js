@@ -10,6 +10,7 @@ const App = () => {
   const [projects, setProjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState("")
   const [phaseSelected, setPhaseSelected] = useState("All");
+  const [editModeProjectId, setEditModeProjectId] = useState(null);
   
   useEffect(() => {
     (async () => {
@@ -36,20 +37,37 @@ const App = () => {
       setSearchQuery(e.target.value)
   }
 
-  const handleAddProject = (newProject) => {
-    setProjects(currentProjectList => [newProject, ...currentProjectList]) //! new state derived based on current state
-    setProjects([newProject, ...projects])
+  const handleAddProject = (createdProject) => {
+    setProjects(currentProjectList => [createdProject, ...currentProjectList]) //! new state derived based on current state
+    // setProjects([createdProject, ...projects])
+  }
+
+  const handlePatchProject = (updatedProject) => {
+    setProjects(currentProjects => currentProjects.map(project => (
+      project.id === updatedProject.id ? updatedProject : project
+    )))
+  }
+
+  const handleDelete = (projectId) => {
+    fetch(`http://localhost:4000/projects/${projectId}`, {method: "DELETE"})
+    .then(() => {
+      setProjects(currentProjects => currentProjects.filter(project => project.id !== projectId))
+    })
   }
 
   const toggleDarkMode = () => setIsDarkMode(current => !current)
 
+  const setEditingModeId = (projectId) => {
+      setEditModeProjectId(projectId)
+  }
+
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode={isDarkMode} onToggleDarkMode={toggleDarkMode} />
-      <ProjectForm handleAddProject={handleAddProject} />
+      <ProjectForm handleAddProject={handleAddProject} editModeProjectId={editModeProjectId} handlePatchProject={handlePatchProject} setEditingModeId={setEditingModeId} />
       <ButtonsFilter handlePhaseSelection={handlePhaseSelection}/>
       <SearchBar handleSearch={handleSearch} searchQuery={searchQuery} />
-      <ProjectList projects={projects} searchQuery={searchQuery} phaseSelected={phaseSelected} />
+      <ProjectList projects={projects} searchQuery={searchQuery} phaseSelected={phaseSelected} setEditingModeId={setEditingModeId} handleDelete={handleDelete} />
 
     </div>
   );

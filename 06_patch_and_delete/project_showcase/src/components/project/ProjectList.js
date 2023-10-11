@@ -1,24 +1,13 @@
 import ProjectListItem from "./ProjectListItem";
 
-const ProjectList = ({projects, searchQuery, phaseSelected}) => {
-  
-  
-  // const finalProjects = projects
-  // .filter(project => {
-    //   return phaseSelected === "All" || project.phase === phaseSelected
-    // })
-    // .filter(project => {
-      //   return project.name.toLowerCase().includes(searchQuery.toLowerCase())
-      // })
-      
-      // const searchResults = filteredProjects.filter(project => {
-        //   return searchQuery === "" || project.name.toLowerCase().includes(searchQuery.toLowerCase())
-        // })
-        
+const ProjectList = ({projects, searchQuery, phaseSelected, setEditingModeId, handleDelete}) => {
+
     const renderProjects = () => {
       return finalProjects.map(project => (
         <ProjectListItem
         key={project.id}
+        setEditingModeId={setEditingModeId}
+        handleDelete={handleDelete}
         {...project}
         />
         ))

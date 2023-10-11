@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { FaPencilAlt, FaTrash } from "react-icons/fa"
 
-const ProjectListItem = ({ image, name, link, about, phase }) => {
+const ProjectListItem = ({ id, image, name, link, about, phase, setEditingModeId, handleDelete }) => {
   // const {image, name, link, about, phase} = project
   const [clapCount, setClapCount] = useState(0);
 
@@ -27,6 +28,10 @@ const ProjectListItem = ({ image, name, link, about, phase }) => {
 
       <footer className="extra">
         <span className="badge blue">Phase {phase}</span>
+        <div className="manage">
+          <button onClick={() => setEditingModeId(id)}><FaPencilAlt /></button>
+          <button onClick={() => handleDelete(id)}><FaTrash /></button>
+        </div>
       </footer>
     </li>
   );
