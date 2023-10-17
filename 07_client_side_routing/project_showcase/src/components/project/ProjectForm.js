@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 import {object, string, number, date} from "yup"
 
 const initialState = {
@@ -9,10 +10,8 @@ const initialState = {
   image: "",
 }
 
-const URL = "http://localhost:4000/projects/"
-
-const ProjectForm = ({handleAddProject, editModeProjectId, handlePatchProject, setEditingModeId}) => {
-
+const ProjectForm = () => {
+  const {handleAddProject, editModeProjectId, handlePatchProject, setEditingModeId, URL} = useOutletContext()
   const [formData, setFormData] = useState(initialState)
 
   useEffect(() => {

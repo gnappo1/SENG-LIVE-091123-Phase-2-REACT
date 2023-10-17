@@ -1,14 +1,15 @@
 import ProjectListItem from "./ProjectListItem";
+import { useOutletContext } from "react-router-dom"
 
-const ProjectList = ({projects, searchQuery, phaseSelected, setEditingModeId, handleDelete}) => {
-
+const ProjectList = () => {
+    const {projects, searchQuery, phaseSelected} = useOutletContext()
     const renderProjects = () => {
       return finalProjects.map(project => (
         <ProjectListItem
         key={project.id}
-        setEditingModeId={setEditingModeId}
-        handleDelete={handleDelete}
-        {...project}
+        // setEditingModeId={setEditingModeId}
+        // handleDelete={handleDelete}
+        project={project}
         />
         ))
       }

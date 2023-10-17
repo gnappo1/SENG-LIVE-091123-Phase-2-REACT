@@ -1,4 +1,7 @@
-const ButtonsFilter = ({handlePhaseSelection}) => {
+import { useOutletContext } from "react-router-dom"
+
+const ButtonsFilter = () => {
+  const { handlePhaseSelection } = useOutletContext()
   return (
     <div className="filter" onClick={handlePhaseSelection}>
         <button>All</button>

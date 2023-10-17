@@ -1,4 +1,8 @@
-const SearchBar = ({handleSearch, searchQuery}) => {
+import { useOutletContext } from "react-router-dom"
+
+const SearchBar = () => {
+    const {handleSearch, searchQuery} = useOutletContext()
+    console.log(searchQuery)
     return (
         <input
             type="text"

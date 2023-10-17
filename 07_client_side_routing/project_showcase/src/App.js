@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react"
 import Header from "./components/navigation/Header";
-import ProjectForm from "./components/project/ProjectForm";
-import ProjectList from "./components/project/ProjectList";
-import SearchBar from "./components/search/SearchBar";
-import ButtonsFilter from "./components/search/ButtonsFilter";
-
+// import ProjectForm from "./components/project/ProjectForm";
+// import ProjectList from "./components/project/ProjectList";
+// import SearchBar from "./components/search/SearchBar";
+// import ButtonsFilter from "./components/search/ButtonsFilter";
+import Footer from "./components/navigation/Footer";
+import { Outlet } from "react-router-dom";
+const URL = "http://localhost:4000/projects"
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [projects, setProjects] = useState([]);
@@ -64,11 +66,8 @@ const App = () => {
   return (
     <div className={isDarkMode ? "App" : "App light"}>
       <Header isDarkMode={isDarkMode} onToggleDarkMode={toggleDarkMode} />
-      <ProjectForm handleAddProject={handleAddProject} editModeProjectId={editModeProjectId} handlePatchProject={handlePatchProject} setEditingModeId={setEditingModeId} />
-      <ButtonsFilter handlePhaseSelection={handlePhaseSelection}/>
-      <SearchBar handleSearch={handleSearch} searchQuery={searchQuery} />
-      <ProjectList projects={projects} searchQuery={searchQuery} phaseSelected={phaseSelected} setEditingModeId={setEditingModeId} handleDelete={handleDelete} />
-
+      <Outlet context={{projects, searchQuery, phaseSelected, handlePhaseSelection, handleSearch, URL, setEditingModeId, handleDelete, handleAddProject, editModeProjectId, handlePatchProject}} />
+      <Footer />
     </div>
   );
 };
