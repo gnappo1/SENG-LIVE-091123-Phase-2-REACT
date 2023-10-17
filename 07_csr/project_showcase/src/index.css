@@ -267,3 +267,21 @@ select:focus {
   border: 2px solid var(--blue-dark);
   color: var(--white);
 }
+
+.error {
+  max-width: 50%;
+  margin: 5% 25% 5%;
+}
+
+.error h1 {
+  text-align: center;
+  margin: .5em;
+}
+
+.error img {
+  width: 100%;
+}
+
+.error h3 {
+  color: red;
+}

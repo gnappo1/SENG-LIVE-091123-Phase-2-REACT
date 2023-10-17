@@ -1,32 +1,33 @@
 import { useState, useEffect } from "react";
 import { FaPencilAlt, FaTrash } from "react-icons/fa"
 import { useParams } from "react-router-dom"
-import { useNavigate, Link, useOutletContext, useLocation } from "react-router-dom";
+import { useNavigate, Link, useOutletContext, useLocation, useLoaderData } from "react-router-dom";
 
 const ProjectListItem = ({project}) => {
   // const {image, name, link, about, phase} = project
   const [clapCount, setClapCount] = useState(0);
-  const [currentProject, setCurrentProject] = useState(null);
+  // const [currentProject, setCurrentProject] = useState(null);
   const {setEditingModeId, handleDelete} = useOutletContext()
   const {projectId} = useParams()
   const navigate = useNavigate()
   const location = useLocation()
-  
+  const currentProject = useLoaderData();
+
   const handleClap = () => setClapCount(clapCount + 1);
 
-  useEffect(() => {
-    if (!project) {
-      fetch(`http://localhost:4000/projects/${projectId}`)
-      .then(r => {
-        if (r.ok) {
-          r.json().then(setCurrentProject)
-        } else {
-          navigate("/projects")
-        }
-      })
-      .catch(error => alert(error))
-    }
-  }, [project, projectId]);
+  // useEffect(() => {
+  //   if (!project) {
+  //     fetch(`http://localhost:4000/projects/${projectId}`)
+  //     .then(r => {
+  //       if (r.ok) {
+  //         r.json().then(setCurrentProject)
+  //       } else {
+  //         navigate("/projects")
+  //       }
+  //     })
+  //     .catch(error => alert(error))
+  //   }
+  // }, [project, projectId]);
 
   const handleEditMode = () => {
     setEditingModeId(id)
@@ -67,6 +68,14 @@ const ProjectListItem = ({project}) => {
       </footer>
     </li>
   );
+}
+
+export const projectListItemLoader = async ({ params }) => {
+  const res = await fetch(`http://localhost:4000/projects/${params.projectId}`)
+  if (!res.ok) {
+    throw new Response("Not Found", { status: 404 }); 
+  }
+  return await res.json();
 }
 
 export default ProjectListItem;

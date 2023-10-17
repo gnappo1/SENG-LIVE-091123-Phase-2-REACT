@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useOutletContext, useNavigate, useLocation } from "react-router-dom";
+import { useOutletContext, useNavigate, useLocation, useLoaderData } from "react-router-dom";
 import {object, string} from "yup"
 
 const initialState = {
@@ -18,15 +18,13 @@ const ProjectForm = () => {
   const {handleAddProject, editModeProjectId, handlePatchProject, setEditingModeId} = useOutletContext()
   const navigate = useNavigate()
   const location = useLocation()
+  const currentProject = useLoaderData()
 
   useEffect(() => {
-    if (editModeProjectId) {
-      fetch(`http://localhost:4000/projects/${editModeProjectId}`)
-      .then(resp => resp.json())
-      .then(setFormData)
-      .catch(err => alert(err))
+    if (currentProject) {
+      setFormData(currentProject)
     }
-  }, [editModeProjectId]);
+  }, [currentProject]);
 
   useEffect(() => {
     if (location.pathname === "/projects/new") {
@@ -120,5 +118,13 @@ const ProjectForm = () => {
     </section>
   );
 };
+
+export const projectFormLoader = async ({ params }) => { 
+  const res = await fetch(`http://localhost:4000/projects/${params.projectId}`)
+  if (!res.ok) {
+    throw new Response("Not Found", { status: 404 }); 
+  }
+  return await res.json();
+}
 
 export default ProjectForm;
