@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from "react-router-dom"
 import App from "./App";
 import ProjectForm, { projectFormLoader } from "./components/project/ProjectForm";
 import ProjectList from "./components/project/ProjectList";
@@ -41,9 +41,18 @@ const router = createBrowserRouter([
     ]
   }
 ])
-
+const routerTwo = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<App />} errorElement={<ErrorComponent />}>
+      <Route path="projects" element={<><ButtonsFilter /><SearchBar /><ProjectList /></>} />
+      <Route path="/projects/new" element={<ProjectForm/>} />
+      <Route path="projects/:projectId" element={<ProjectListItem />} loader={projectListItemLoader} />
+      <Route path="projects/:projectId/edit" element={<ProjectForm />} loader={projectFormLoader} />
+    </Route>
+  )
+)
 root.render(
   // <StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider router={routerTwo} />
   // </StrictMode>
 );
